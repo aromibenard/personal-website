@@ -24,23 +24,22 @@ export default function NextPrevious() {
 
     return (
         <div className="mt-10 flex justify-between border-t pt-6">
-        {prev ? (
-            <Link
-            href={prev.href}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-            ← {prev.title}
-            </Link>
-        ) : <div />}
-
-        {next ? (
-            <Link
-            href={next.href}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-            {next.title} →
-            </Link>
-        ) : <div />}
-    </div>
-    )
+            {prev ? (
+                <Link
+                    href={prev.href}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                ← {prev.title}
+                </Link>
+            ) : <div />}
+            {next ? (
+                <Link
+                    href={next.href}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                {next.title} →
+                </Link>
+            ) : <div />}
+        </div>
+    );
 }
