@@ -1,53 +1,58 @@
-import { client } from "@/sanity/lib/client";
-import { Project } from "@/types/project";
-import  ImageUrlBuilder  from "@sanity/image-url";
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { getProjects } from "@/lib/getProjects";
+import { truncateDescription, truncatePortableText, urlFor } from "@/lib/utils";
+import { ExternalLink, Github } from "lucide-react";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";
+import { buttonVariants } from "./ui/button";
 
-interface ProjectCardProps {
-    project: Project
-}
 
-const { projectId, dataset } = client.config()
-const urlFor = (source: SanityImageSource) => 
-    projectId && dataset ? ImageUrlBuilder({ projectId, dataset}).image(source) : null
+export const ProjectCard = async () => {
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    const projects = await getProjects()
 
-export const ProjectCard = ({ project }: ProjectCardProps) => {
-    const projectImageUrl = project.thumbnail ? urlFor(project.thumbnail)?.width(550).height(310).url() : null
     return (
-        <div className="border rounded-md shadow">
-            <div className="relative h-48">
-                {projectImageUrl && 
-                    <Image
-                        src={projectImageUrl}
-                        alt={project.title}
-                        objectFit="cover"
-                        height={310}
-                        width={550}
-                        className="rounded-md"
-                    />
-                }
-            </div>
-            <h2 className="text-xl font-semibold mt-4">{project.title}</h2>
-            {typeof project.description === "string" ? (
-                <p>{project.description}</p>
-            ) : (
-                <PortableText value={project.description} />
-            )}
-            <div className="flex justify-between items-center mt-4">
-                {project.projectUrl && (
-                    <Link href={project.projectUrl} target="_blank" className="text-gray-700">
-                        View Project
-                    </Link>
-                )}
-                {project.githubUrl && (
-                    <Link href={project.githubUrl} target="_blank" className="text-gray-700">
-                        GitHub
-                    </Link>
-                )}
-            </div>
-        </div>
+        <>
+            {projects.map(project => {
+                const projectImageUrl = urlFor(project.thumbnail).url()
+                return (
+                    <div key={project._id} className="border rounded-md shadow">
+                        <div className="relative h-48">
+                            {projectImageUrl && 
+                                <Image
+                                    src={projectImageUrl}
+                                    alt={project.title}
+                                    fill={true }
+                                    className="rounded-tl-md rounded-tr-md"
+                                />
+                            }
+                        </div>
+                        <h2 className="text-xl font-semibold my-2 px-2">{project.title}</h2>
+                        {typeof project.description === "string" ? (
+                            <p className="px-2">{truncateDescription(project.description, 35)}</p>
+                        ) : (
+                            <div className="px-2">
+                                <PortableText value={truncatePortableText(project.description, 35)}/>
+                            </div>
+                        )}
+                        <Link href={`/projects/${project.slug.current}`} className={`${buttonVariants({ variant: 'outline'})} w-full my-2 px-2`} >
+                            View Project
+                        </Link>
+                        <div className="flex justify-between items-center mt-4 mb-2">
+                            {project.projectUrl && (
+                                <Link href={project.projectUrl} target="_blank" className="text-muted-foreground hover:text-purple-600 transition-colors hover:underline">
+                                    <span className="flex items-center space-x-1"><p>production</p><ExternalLink /></span>
+                                </Link>
+                            )}
+                            {project.githubUrl && (
+                                <Link href={project.githubUrl} target="_blank" className="text-muted-foreground hover:text-purple-600 transition-colors hover:underline">
+                                    <Github />
+                                </Link>
+                            )}
+                        </div>
+                    </div>
+                )
+            })}
+        </>
     );
 }
