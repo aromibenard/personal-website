@@ -16,7 +16,7 @@ export default function BreadCrumbs() {
     const segments = pathname.split("/").filter(Boolean)
 
     return (
-        <Breadcrumb>
+        <Breadcrumb className="my-2">
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
