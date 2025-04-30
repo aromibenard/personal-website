@@ -35,11 +35,6 @@ export const ProjectCard = async () => {
                                 <PortableText value={truncatePortableText(project.description, 35)}/>
                             </div>
                         )}
-                        <div className="px-2">
-                            <Link href={`/projects/${project.slug.current}`} className={`${buttonVariants({ variant: 'secondary'})} w-full my-2 px-2`} >
-                                View Project
-                            </Link>
-                        </div>
                         <div className="flex justify-between items-center mt-4 mb-2 px-2 text-sm">
                             {project.projectUrl && (
                                 <Link href={project.projectUrl} target="_blank" className="text-muted-foreground hover:text-purple-600 transition-colors hover:underline">
@@ -51,6 +46,11 @@ export const ProjectCard = async () => {
                                     <Github />
                                 </Link>
                             )}
+                        </div>
+                        <div className="px-2">
+                            <Link href={`/projects/${project.slug.current}`} className={`${buttonVariants({ variant: 'secondary'})} w-full my-2 px-2`} >
+                                View Project
+                            </Link>
                         </div>
                     </div>
                 )

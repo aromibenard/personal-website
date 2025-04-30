@@ -2,7 +2,7 @@ import SideBarLinks from "./side-bar-links"
 
 export default function SideBar() {
     return (
-        <div className="min-h-screen  p-4 px-2 md:p-14 md:px-2">
+        <div className="border-r  p-4 px-2 md:p-14 md:px-2">
             <SideBarLinks />
         </div>
     )
