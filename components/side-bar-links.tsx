@@ -10,26 +10,8 @@ const mainLinks = [
         href: '/'
     },
     {
-        name: 'Introduction',
-        href: '/introduction',
-        children: [
-            {
-                name: 'About Me',
-                href: '/introduction/about-me',
-            },
-            {
-                name: 'Tech Stack',
-                href: '/introduction/tech-stack',
-            }
-        ]
-    },
-    {
         name: 'Projects',
         href: '/projects',
-    },
-    {
-        name: 'Skills',
-        href: '/skills',
     },
     {
         name: 'Contact',
@@ -54,19 +36,6 @@ export default function SideBarLinks () {
                     >
                         {link.name}
                     </Link>
-
-                    {link.children?.map((child) => (
-                        <Link
-                            key={child.name}
-                            href={child.href}
-                            className={clsx(
-                                'ml-2 text-sm text-muted-foreground transition-colors hover:text-primary',
-                                { 'text-primary': pathname === child.href }
-                            )}
-                        >
-                            {child.name}
-                        </Link>
-                    ))}
                 </div>
             ))}
         </div>

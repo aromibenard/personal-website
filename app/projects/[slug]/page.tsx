@@ -17,7 +17,7 @@ export default async function Page({
     params: Promise<{ slug: string }>
 }) {
     const project = await client.fetch<Project>(PROJECT_QUERY, await params)
-    const date = new Date ( project.publishedAt as string )
+    const date = new Date ( project.publishedAt as string ) ? new Date ( project.publishedAt as string ) : new Date()
 
     const formattedDate = new Intl.DateTimeFormat("en-us", {
         month: "long",
@@ -31,7 +31,9 @@ export default async function Page({
         <div className="p-8 md:p-14 md:px-8 flex flex-col space-y-4 w-full min-h-screen">
             <BreadCrumbs />
             <h1 className="font-extrabold text-3xl relative mx-auto drop-shadow">{project.title}</h1>
-            <h2 className="text-muted-foreground relative mx-auto text-sm -mt-2">{formattedDate}</h2>
+            { formattedDate && (
+                <h2 className="text-muted-foreground relative mx-auto text-sm -mt-2">{formattedDate}</h2>
+            )}
             {typeof project.description === "string" ? (
                 <p className="px-2">{project.description}</p>
             ) : (
